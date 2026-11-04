@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext.jsx';
 import { uploadAsset } from '../supabaseClient.js';
+import { downloadResumePdf } from '../utils/downloadHelper.js';
 import Modal from '../components/Modal.jsx';
 
 export default function ResumeManager({ onShowToast }) {
@@ -99,14 +100,13 @@ export default function ResumeManager({ onShowToast }) {
 
           <div className="flex items-center gap-3">
             {profile.resumeUrl && (
-              <a
-                href={profile.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => downloadResumePdf(profile.resumeUrl, profile.resumeFileName || 'Pittala_Manogna_Resume.pdf', onShowToast)}
                 className="px-4 py-2 rounded-lg text-xs font-semibold text-[#111111] bg-white border border-[#E5E5E5] hover:bg-[#F3F3F3] transition-colors"
               >
-                Preview File
-              </a>
+                Test Download
+              </button>
             )}
 
             {profile.resumeUrl && (

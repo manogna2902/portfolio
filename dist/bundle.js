@@ -11,6 +11,9 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 // src/supabaseClient.js
 import { createClient } from "@supabase/supabase-js";
 
+// src/data/resumeBase64.js
+var defaultResumePdfBase64 = "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA1OTUgODQyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgNSAwIFIgL0YyIDYgMCBSID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMzQ4NCA+PgpzdHJlYW0KMC4yIDAuMiAwLjIgUkcgMSB3IDQwIDczNSBtIDU1NSA3MzUgbCBTCjAuNyAwLjcgMC43IFJHIDAuNSB3CjQwIDcxMCBtIDU1NSA3MTAgbCBTCjQwIDY1NSBtIDU1NSA2NTUgbCBTCjQwIDUzNyBtIDU1NSA1MzcgbCBTCjQwIDQ2OCBtIDU1NSA0NjggbCBTCjQwIDM1NyBtIDU1NSAzNTcgbCBTCjQwIDI4OCBtIDU1NSAyODggbCBTCkJUIC9GMiAyMCBUZiAwIDAgMCByZyA0MCA3OTAgVGQgKFBJVFRBTEEgTUFOT0dOQSkgVGogRVQKQlQgL0YxIDEyIFRmIDAgMCAwIHJnIDQwIDc3MCBUZCAoQi5UZWNoIERhdGEgU2NpZW5jZSBTdHVkZW50IHwgQXNwaXJpbmcgRGF0YSBBbmFseXN0KSBUaiBFVApCVCAvRjEgMTAgVGYgMCAwIDAgcmcgNDAgNzU1IFRkIChXYXJhbmdhbCwgVGVsYW5nYW5hLCBJbmRpYSB8ICs5MSA4MzMxMDAzMjkwIHwgbWFub2duYTI5MDJAZ21haWwuY29tKSBUaiBFVApCVCAvRjEgMTAgVGYgMCAwIDAgcmcgNDAgNzQyIFRkIChMaW5rZWRJbjogbGlua2VkaW4uY29tL2luL21hbm9nbmEtcGl0dGFsYS0wNzdhYTkzMjUgfCBHaXRIdWI6IGdpdGh1Yi5jb20vbWFub2duYTI5MDIpIFRqIEVUCkJUIC9GMiAxMiBUZiAwIDAgMCByZyA0MCA3MTUgVGQgKENBUkVFUiBPQkpFQ1RJVkUpIFRqIEVUCkJUIC9GMSAxMCBUZiAwIDAgMCByZyA0MCA3MDAgVGQgKFBhc3Npb25hdGUgQi5UZWNoIERhdGEgU2NpZW5jZSBzdHVkZW50IGF0IEtJVFNXIFdhcmFuZ2FsIHdpdGggc3Ryb25nIGZvdW5kYXRpb25zIGluIERhdGEgQW5hbHl0aWNzLCkgVGogRVQKQlQgL0YxIDEwIFRmIDAgMCAwIHJnIDQwIDY4OCBUZCAoUHl0aG9uLCBNYWNoaW5lIExlYXJuaW5nLCBhbmQgVGFibGVhdS4gU2Vla2luZyB0byB0cmFuc2Zvcm0gcmF3IGRhdGEgaW50byBhY3Rpb25hYmxlIGJ1c2luZXNzIGluc2lnaHRzLikgVGogRVQKQlQgL0YyIDEyIFRmIDAgMCAwIHJnIDQwIDY2MCBUZCAoRURVQ0FUSU9OKSBUaiBFVApCVCAvRjIgMTEgVGYgMCAwIDAgcmcgNDAgNjQ1IFRkIChLYWthdGl5YSBJbnN0aXR1dGUgb2YgVGVjaG5vbG9neSBhbmQgU2NpZW5jZSBcKEtJVFNXXCksIFdhcmFuZ2FsKSBUaiBFVApCVCAvRjEgMTAgVGYgMCAwIDAgcmcgNDAgNjMyIFRkIChCLlRlY2ggaW4gRGF0YSBTY2llbmNlIHwgMjAyNCAtIFByZXNlbnQgfCBDR1BBOiA4LjgpIFRqIEVUCkJUIC9GMiAxMSBUZiAwIDAgMCByZyA0MCA2MTQgVGQgKFRTUkpDIENFVCBHaXJscywgTmlybWFsKSBUaiBFVApCVCAvRjEgMTAgVGYgMCAwIDAgcmcgNDAgNjAxIFRkIChJbnRlcm1lZGlhdGUgLSBNUEMgfCAyMDIyIC0gMjAyNCB8IFBlcmNlbnRhZ2U6IDk2LjklKSBUaiBFVApCVCAvRjIgMTEgVGYgMCAwIDAgcmcgNDAgNTgzIFRkIChaUEhTIE1hc2thcHVyKSBUaiBFVApCVCAvRjEgMTAgVGYgMCAwIDAgcmcgNDAgNTcwIFRkIChTZWNvbmRhcnkgU2Nob29sIENlcnRpZmljYXRlIFwoU1NDXCkgfCAyMDIyIHwgR1BBOiA5LjIpIFRqIEVUCkJUIC9GMiAxMiBUZiAwIDAgMCByZyA0MCA1NDIgVGQgKFRFQ0hOSUNBTCBTS0lMTFMpIFRqIEVUCkJUIC9GMSAxMCBUZiAwIDAgMCByZyA0MCA1MjcgVGQgKExhbmd1YWdlcyAmIENvcmU6IFB5dGhvbiBcKFBhbmRhcywgTnVtUHlcKSwgSmF2YSBcKE9PUCwgRGF0YSBTdHJ1Y3R1cmVzXCksIFNRTCkgVGogRVQKQlQgL0YxIDEwIFRmIDAgMCAwIHJnIDQwIDUxNCBUZCAoQnVzaW5lc3MgSW50ZWxsaWdlbmNlICYgVml6OiBUYWJsZWF1IERlc2t0b3AsIEludGVyYWN0aXZlIERhc2hib2FyZHMsIERhdGEgVmlzdWFsaXphdGlvbikgVGogRVQKQlQgL0YxIDEwIFRmIDAgMCAwIHJnIDQwIDUwMSBUZCAoRGF0YSBTY2llbmNlICYgQ29uY2VwdHM6IERhdGEgUHJlcHJvY2Vzc2luZywgRGF0YSBDbGVhbmluZywgRXhwbG9yYXRvcnkgQW5hbHlzaXMsIFByb2JsZW0gU29sdmluZykgVGogRVQKQlQgL0YyIDEyIFRmIDAgMCAwIHJnIDQwIDQ3MyBUZCAoUFJPSkVDVFMpIFRqIEVUCkJUIC9GMiAxMSBUZiAwIDAgMCByZyA0MCA0NTggVGQgKFN0dWR5TWF0ZSAtIEludGVsbGlnZW50IENvbGxhYm9yYXRpdmUgU3R1ZHkgUGxhdGZvcm0pIFRqIEVUCkJUIC9GMSAxMCBUZiAwIDAgMCByZyA0MCA0NDUgVGQgKERlc2lnbmVkIGEgY29sbGFib3JhdGl2ZSBwbGF0Zm9ybSBmb3Igc3R1ZGVudHMgdG8gdHJhY2sgc3R1ZHkgc2Vzc2lvbnMgYW5kIG9wdGltaXplIHBlZXIgbGVhcm5pbmcuKSBUaiBFVApCVCAvRjEgOSBUZiAwIDAgMCByZyA0MCA0MzMgVGQgKFRlY2hub2xvZ2llczogUHl0aG9uLCBEYXRhIEFuYWx5dGljcywgUmVhY3QsIFRhaWx3aW5kIENTUywgRGF0YWJhc2UgRGVzaWduKSBUaiBFVApCVCAvRjIgMTEgVGYgMCAwIDAgcmcgNDAgNDE1IFRkIChUUklDSVRZIC0gVXJiYW4gQW5hbHl0aWNzICYgQ2l2aWMgRGF0YSBWaXN1YWxpemF0aW9uKSBUaiBFVApCVCAvRjEgMTAgVGYgMCAwIDAgcmcgNDAgNDAyIFRkIChDaXZpYyBhbmFseXRpY3MgcGxhdGZvcm0gdmlzdWFsaXppbmcgbXVuaWNpcGFsIG1ldHJpY3MsIGdlb3NwYXRpYWwgbWFwcGluZywgYW5kIGNpdGl6ZW4gcmVwb3J0aW5nLikgVGogRVQKQlQgL0YxIDkgVGYgMCAwIDAgcmcgNDAgMzkwIFRkIChUZWNobm9sb2dpZXM6IFB5dGhvbiwgQ2l2aWMgQW5hbHl0aWNzLCBEYXRhIFZpc3VhbGl6YXRpb24sIFJFU1QgQVBJcywgR0lTIE1hcHBpbmcpIFRqIEVUCkJUIC9GMiAxMiBUZiAwIDAgMCByZyA0MCAzNjIgVGQgKElOVEVSTlNISVAgRVhQRVJJRU5DRSkgVGogRVQKQlQgL0YyIDExIFRmIDAgMCAwIHJnIDQwIDM0NyBUZCAoSmF2YSBQcm9ncmFtbWluZyBJbnRlcm4gLSBJbnRlcm5QZSBcKDYgV2Vla3MsIDIwMjZcKSkgVGogRVQKQlQgL0YxIDEwIFRmIDAgMCAwIHJnIDQwIDMzNCBUZCAoLSBJbXBsZW1lbnRlZCBtb2R1bGFyIEphdmEgY29tcG9uZW50cyBhZGhlcmluZyB0byBvYmplY3Qtb3JpZW50ZWQgcHJvZ3JhbW1pbmcgcHJpbmNpcGxlcy4pIFRqIEVUCkJUIC9GMSAxMCBUZiAwIDAgMCByZyA0MCAzMjEgVGQgKC0gRGV2ZWxvcGVkIGFsZ29yaXRobXMgZm9yIGVmZmljaWVudCBkYXRhIHN0cnVjdHVyZXMsIGRlYnVnZ2luZywgYW5kIHNvZnR3YXJlIHRlc3RpbmcgcHJhY3RpY2VzLikgVGogRVQKQlQgL0YyIDEyIFRmIDAgMCAwIHJnIDQwIDI5MyBUZCAoQ0VSVElGSUNBVElPTlMgJiBTRU1JTkFSUykgVGogRVQKQlQgL0YyIDEwIFRmIDAgMCAwIHJnIDQwIDI3OCBUZCAoSGVkZXJhIENlcnRpZmllZCBGb3VuZGF0aW9uIFwoSENGXCkgLSBIZWRlcmEgXCgyMDI0XCkpIFRqIEVUCkJUIC9GMiAxMCBUZiAwIDAgMCByZyA0MCAyNjMgVGQgKENyZWRpdCBDYXJkIEZyYXVkIERldGVjdGlvbiAtIEFjYWRlbWljIFJlc2VhcmNoIFNlbWluYXIsIEtJVFNXIFwoMjAyNlwpKSBUaiBFVApCVCAvRjEgOSBUZiAwIDAgMCByZyA0MCAyNTAgVGQgKEV4cGxvcmVkIE1MIHRlY2huaXF1ZXMgXChTTU9URSwgWEdCb29zdCwgUFItQVVDXCkgZm9yIGhpZ2hseSBza2V3ZWQgZmluYW5jaWFsIHRyYW5zYWN0aW9uIHN0cmVhbXMuKSBUaiBFVAplbmRzdHJlYW0KZW5kb2JqCjUgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+CmVuZG9iago2IDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkID4+CmVuZG9iagp4cmVmCjAgNwowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyNTEgMDAwMDAgbiAKMDAwMDAwMzc4NyAwMDAwMCBuIAowMDAwMDAzODU3IDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNyAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMzkzMgolJUVPRgo=";
+
 // src/data/initialData.js
 var initialProfile = {
   name: "Pittala Manogna",
@@ -32,8 +35,8 @@ var initialProfile = {
   ],
   avatarUrl: "",
   // Defaults to clean minimalist SVG avatar if empty
-  resumeUrl: "",
-  // Resume PDF path or Base64 data URL
+  resumeUrl: defaultResumePdfBase64,
+  // Actual Pittala Manogna Resume PDF
   resumeFileName: "Pittala_Manogna_Resume.pdf",
   resumeUpdatedAt: "2026-11-04"
 };
@@ -281,7 +284,16 @@ function getLocalPortfolioData() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY_DATA);
     if (stored) {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      if (!parsed.profile?.resumeUrl || parsed.profile.resumeUrl === "") {
+        parsed.profile = {
+          ...parsed.profile,
+          resumeUrl: initialProfile.resumeUrl || "Pittala_Manogna_Resume.pdf",
+          resumeFileName: "Pittala_Manogna_Resume.pdf"
+        };
+        saveLocalPortfolioData(parsed);
+      }
+      return parsed;
     }
   } catch (e) {
     console.error("Error reading local portfolio data:", e);
@@ -955,7 +967,93 @@ function usePortfolio() {
 
 // src/components/Navbar.jsx
 import React3, { useState as useState3, useEffect as useEffect3 } from "react";
-function Navbar({ onNavigateAdmin }) {
+
+// src/utils/downloadHelper.js
+async function downloadResumePdf(resumeUrl, fileName = "Pittala_Manogna_Resume.pdf", onMessage = null) {
+  const targetFileName = fileName || "Pittala_Manogna_Resume.pdf";
+  if (!resumeUrl || resumeUrl.trim() === "") {
+    const errorMsg = "No resume PDF is currently available to download. Please upload one via the Admin Dashboard.";
+    if (typeof onMessage === "function") {
+      onMessage(errorMsg, "info");
+    } else {
+      alert(errorMsg);
+    }
+    return false;
+  }
+  try {
+    if (resumeUrl.startsWith("data:")) {
+      const link2 = document.createElement("a");
+      link2.href = resumeUrl;
+      link2.download = targetFileName;
+      link2.target = "_self";
+      link2.style.display = "none";
+      document.body.appendChild(link2);
+      link2.click();
+      setTimeout(() => {
+        if (document.body.contains(link2)) {
+          document.body.removeChild(link2);
+        }
+      }, 250);
+      if (typeof onMessage === "function") {
+        onMessage(`Downloading ${targetFileName}...`, "success");
+      }
+      return true;
+    }
+    try {
+      const res = await fetch(resumeUrl, { mode: "cors" });
+      if (res.ok) {
+        const blob = await res.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link2 = document.createElement("a");
+        link2.href = blobUrl;
+        link2.download = targetFileName;
+        link2.target = "_self";
+        link2.style.display = "none";
+        document.body.appendChild(link2);
+        link2.click();
+        setTimeout(() => {
+          window.URL.revokeObjectURL(blobUrl);
+          if (document.body.contains(link2)) {
+            document.body.removeChild(link2);
+          }
+        }, 600);
+        if (typeof onMessage === "function") {
+          onMessage(`Downloading ${targetFileName}...`, "success");
+        }
+        return true;
+      }
+    } catch (fetchErr) {
+      console.warn("Blob fetch failed (likely cross-origin), falling back to anchor download:", fetchErr);
+    }
+    const link = document.createElement("a");
+    link.href = resumeUrl;
+    link.download = targetFileName;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      if (document.body.contains(link)) {
+        document.body.removeChild(link);
+      }
+    }, 250);
+    if (typeof onMessage === "function") {
+      onMessage(`Opening ${targetFileName}...`, "success");
+    }
+    return true;
+  } catch (err) {
+    console.error("Download resume error:", err);
+    if (typeof onMessage === "function") {
+      onMessage("Failed to download resume. Opening in a new window instead.", "error");
+    }
+    window.open(resumeUrl, "_blank");
+    return false;
+  }
+}
+
+// src/components/Navbar.jsx
+function Navbar({ onNavigateAdmin, onShowToast }) {
   const { profile } = usePortfolio();
   const { isAuthenticated } = useAuth();
   const [scrolled, setScrolled] = useState3(false);
@@ -991,49 +1089,12 @@ function Navbar({ onNavigateAdmin }) {
       });
     }
   };
-  const handleResumeDownload = () => {
-    if (profile.resumeUrl) {
-      window.open(profile.resumeUrl, "_blank");
-    } else {
-      const resumeContent = `PITTALA MANOGNA
-${profile.title}
-Location: ${profile.location}
-Email: ${profile.email} | Phone: ${profile.phone}
-LinkedIn: ${profile.linkedin}
-GitHub: ${profile.github}
-
-ABOUT ME:
-${profile.bio}
-
-EDUCATION:
-- B.Tech in Data Science, KITSW, Warangal (2024-Present) | CGPA: 8.8
-- Intermediate MPC, TSRJC CET Girls, Nirmal (2022-2024) | Percentage: 96.9%
-- SSC, ZPHS Maskapur (2022) | GPA: 9.2
-
-SKILLS:
-- Python, Tableau, Data Visualization, Java, Problem Solving
-
-PROJECTS:
-- StudyMate: Intelligent collaborative study platform for peer learning insights.
-- TRICITY: Urban civic analytics platform for smart city data visualization.
-
-INTERNSHIP:
-- Java Programming Intern at InternPe (6 Weeks, 2026)
-
-CERTIFICATIONS:
-- Hedera Certified Foundation (HCF)
-
-SEMINAR:
-- Credit Card Fraud Detection (Academic ML Seminar)`;
-      const blob = new Blob([resumeContent], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = profile.resumeFileName || "Pittala_Manogna_Resume.txt";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const handleResumeDownload = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    setMobileMenuOpen(false);
+    const resumeSource = profile.resumeUrl || "Pittala_Manogna_Resume.pdf";
+    const resumeName = profile.resumeFileName || "Pittala_Manogna_Resume.pdf";
+    downloadResumePdf(resumeSource, resumeName, onShowToast);
   };
   return /* @__PURE__ */ React3.createElement("nav", { className: `fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled ? "bg-white/95 backdrop-blur-md border-b border-[#E5E5E5] py-3.5 shadow-sm" : "bg-white/80 backdrop-blur-sm py-5"}` }, /* @__PURE__ */ React3.createElement("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" }, /* @__PURE__ */ React3.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ React3.createElement(
     "a",
@@ -1057,10 +1118,13 @@ SEMINAR:
     },
     link.name
   ))), /* @__PURE__ */ React3.createElement("div", { className: "hidden md:flex items-center gap-3" }, /* @__PURE__ */ React3.createElement(
-    "button",
+    "a",
     {
+      href: profile.resumeUrl || "Pittala_Manogna_Resume.pdf",
+      download: profile.resumeFileName || "Pittala_Manogna_Resume.pdf",
       onClick: handleResumeDownload,
-      className: "inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-white border border-[#E5E5E5] rounded-md hover:border-[#111111] hover:bg-[#F3F3F3] transition-all"
+      role: "button",
+      className: "inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-white border border-[#E5E5E5] rounded-md hover:border-[#111111] hover:bg-[#F3F3F3] transition-all cursor-pointer shadow-sm"
     },
     /* @__PURE__ */ React3.createElement("svg", { className: "w-3.5 h-3.5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor" }, /* @__PURE__ */ React3.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" })),
     "Resume"
@@ -1091,13 +1155,13 @@ SEMINAR:
     },
     link.name
   )), /* @__PURE__ */ React3.createElement("div", { className: "pt-3 flex flex-col gap-2" }, /* @__PURE__ */ React3.createElement(
-    "button",
+    "a",
     {
-      onClick: () => {
-        setMobileMenuOpen(false);
-        handleResumeDownload();
-      },
-      className: "w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-[#F3F3F3] rounded-md border border-[#E5E5E5]"
+      href: profile.resumeUrl || "Pittala_Manogna_Resume.pdf",
+      download: profile.resumeFileName || "Pittala_Manogna_Resume.pdf",
+      onClick: handleResumeDownload,
+      role: "button",
+      className: "w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-[#F3F3F3] rounded-md border border-[#E5E5E5] cursor-pointer"
     },
     /* @__PURE__ */ React3.createElement("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor" }, /* @__PURE__ */ React3.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" })),
     "Download Resume"
@@ -1117,51 +1181,13 @@ SEMINAR:
 
 // src/components/Hero.jsx
 import React4 from "react";
-function Hero() {
+function Hero({ onShowToast }) {
   const { profile } = usePortfolio();
-  const handleResumeDownload = () => {
-    if (profile.resumeUrl) {
-      window.open(profile.resumeUrl, "_blank");
-    } else {
-      const resumeContent = `PITTALA MANOGNA - RESUME
-${profile.title}
-Location: ${profile.location}
-Email: ${profile.email} | Phone: ${profile.phone}
-LinkedIn: ${profile.linkedin}
-GitHub: ${profile.github}
-
-ABOUT ME:
-${profile.bio}
-
-EDUCATION:
-- B.Tech in Data Science, KITSW, Warangal (2024-Present) | CGPA: 8.8
-- Intermediate MPC, TSRJC CET Girls, Nirmal (2022-2024) | Percentage: 96.9%
-- SSC, ZPHS Maskapur (2022) | GPA: 9.2
-
-SKILLS:
-- Python, Tableau, Data Visualization, Java, Problem Solving
-
-PROJECTS:
-- StudyMate: Intelligent collaborative study platform for peer learning insights.
-- TRICITY: Urban civic analytics platform for smart city data visualization.
-
-INTERNSHIP:
-- Java Programming Intern at InternPe (6 Weeks, 2026)
-
-CERTIFICATIONS:
-- Hedera Certified Foundation (HCF)
-
-SEMINAR:
-- Credit Card Fraud Detection (Academic ML Seminar)`;
-      const blob = new Blob([resumeContent], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = profile.resumeFileName || "Pittala_Manogna_Resume.txt";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const handleResumeDownload = (e) => {
+    e.preventDefault();
+    const resumeSource = profile.resumeUrl || "Pittala_Manogna_Resume.pdf";
+    const resumeName = profile.resumeFileName || "Pittala_Manogna_Resume.pdf";
+    downloadResumePdf(resumeSource, resumeName, onShowToast);
   };
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -1181,10 +1207,13 @@ SEMINAR:
     /* @__PURE__ */ React4.createElement("span", null, "View Projects"),
     /* @__PURE__ */ React4.createElement("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor" }, /* @__PURE__ */ React4.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M19 14l-7 7m0 0l-7-7m7 7V3" }))
   ), /* @__PURE__ */ React4.createElement(
-    "button",
+    "a",
     {
+      href: profile.resumeUrl || "Pittala_Manogna_Resume.pdf",
+      download: profile.resumeFileName || "Pittala_Manogna_Resume.pdf",
       onClick: handleResumeDownload,
-      className: "w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-white border border-[#E5E5E5] rounded-lg hover:border-[#111111] hover:bg-[#F3F3F3] transition-all"
+      role: "button",
+      className: "w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-white border border-[#E5E5E5] rounded-lg hover:border-[#111111] hover:bg-[#F3F3F3] transition-all cursor-pointer shadow-sm"
     },
     /* @__PURE__ */ React4.createElement("svg", { className: "w-4 h-4 text-[#111111]", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor" }, /* @__PURE__ */ React4.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" })),
     /* @__PURE__ */ React4.createElement("span", null, "Download Resume")
@@ -3764,14 +3793,13 @@ function ResumeManager({ onShowToast }) {
     }
   };
   return /* @__PURE__ */ React29.createElement("div", { className: "bg-white rounded-2xl border border-[#E5E5E5] p-6 sm:p-8 shadow-sm animate-fade-in" }, /* @__PURE__ */ React29.createElement("div", { className: "pb-6 mb-8 border-b border-[#E5E5E5]" }, /* @__PURE__ */ React29.createElement("h2", { className: "text-xl sm:text-2xl font-bold text-[#111111] tracking-tight" }, "Resume Management"), /* @__PURE__ */ React29.createElement("p", { className: "text-xs text-[#666666] mt-1" }, 'Upload, replace, and manage the PDF resume linked directly to the "Download Resume" buttons on the public website.')), /* @__PURE__ */ React29.createElement("div", { className: "space-y-8" }, /* @__PURE__ */ React29.createElement("div", { className: "p-6 rounded-2xl bg-[#F9F9F9] border border-[#E5E5E5] flex flex-col sm:flex-row sm:items-center justify-between gap-6" }, /* @__PURE__ */ React29.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ React29.createElement("div", { className: "w-14 h-14 rounded-xl bg-[#111111] text-white flex items-center justify-center shrink-0 shadow-sm" }, /* @__PURE__ */ React29.createElement("svg", { className: "w-7 h-7 text-red-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor" }, /* @__PURE__ */ React29.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" }))), /* @__PURE__ */ React29.createElement("div", null, /* @__PURE__ */ React29.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ React29.createElement("h3", { className: "text-base font-bold text-[#111111]" }, profile.resumeFileName || "Pittala_Manogna_Resume.pdf"), /* @__PURE__ */ React29.createElement("span", { className: `px-2 py-0.5 rounded-full text-[10px] font-bold ${profile.resumeUrl ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"}` }, profile.resumeUrl ? "Custom PDF Active" : "Auto Generated Resume")), /* @__PURE__ */ React29.createElement("p", { className: "text-xs text-[#666666] mt-1" }, "Last updated: ", profile.resumeUpdatedAt ? new Date(profile.resumeUpdatedAt).toLocaleDateString() : "Current"))), /* @__PURE__ */ React29.createElement("div", { className: "flex items-center gap-3" }, profile.resumeUrl && /* @__PURE__ */ React29.createElement(
-    "a",
+    "button",
     {
-      href: profile.resumeUrl,
-      target: "_blank",
-      rel: "noopener noreferrer",
+      type: "button",
+      onClick: () => downloadResumePdf(profile.resumeUrl, profile.resumeFileName || "Pittala_Manogna_Resume.pdf", onShowToast),
       className: "px-4 py-2 rounded-lg text-xs font-semibold text-[#111111] bg-white border border-[#E5E5E5] hover:bg-[#F3F3F3] transition-colors"
     },
-    "Preview File"
+    "Test Download"
   ), profile.resumeUrl && /* @__PURE__ */ React29.createElement(
     "button",
     {
@@ -4163,7 +4191,13 @@ function App() {
       onBackToSite: () => navigateTo("public"),
       onShowToast: showToast
     }
-  )), currentRoute === "public" && /* @__PURE__ */ React32.createElement(React32.Fragment, null, /* @__PURE__ */ React32.createElement(Navbar, { onNavigateAdmin: () => navigateTo(isAuthenticated ? "admin_dashboard" : "admin_login") }), /* @__PURE__ */ React32.createElement("main", null, /* @__PURE__ */ React32.createElement(Hero, null), /* @__PURE__ */ React32.createElement(About, null), /* @__PURE__ */ React32.createElement(Education, null), /* @__PURE__ */ React32.createElement(Skills, null), /* @__PURE__ */ React32.createElement(Projects, null), /* @__PURE__ */ React32.createElement(Certifications, null), /* @__PURE__ */ React32.createElement(Internships, null), /* @__PURE__ */ React32.createElement(Services, null), /* @__PURE__ */ React32.createElement(Seminar, null), /* @__PURE__ */ React32.createElement(Contact, { onShowToast: showToast })), /* @__PURE__ */ React32.createElement(Footer, { onNavigateAdmin: () => navigateTo(isAuthenticated ? "admin_dashboard" : "admin_login") })), /* @__PURE__ */ React32.createElement(
+  )), currentRoute === "public" && /* @__PURE__ */ React32.createElement(React32.Fragment, null, /* @__PURE__ */ React32.createElement(
+    Navbar,
+    {
+      onNavigateAdmin: () => navigateTo(isAuthenticated ? "admin_dashboard" : "admin_login"),
+      onShowToast: showToast
+    }
+  ), /* @__PURE__ */ React32.createElement("main", null, /* @__PURE__ */ React32.createElement(Hero, { onShowToast: showToast }), /* @__PURE__ */ React32.createElement(About, null), /* @__PURE__ */ React32.createElement(Education, null), /* @__PURE__ */ React32.createElement(Skills, null), /* @__PURE__ */ React32.createElement(Projects, null), /* @__PURE__ */ React32.createElement(Certifications, null), /* @__PURE__ */ React32.createElement(Internships, null), /* @__PURE__ */ React32.createElement(Services, null), /* @__PURE__ */ React32.createElement(Seminar, null), /* @__PURE__ */ React32.createElement(Contact, { onShowToast: showToast })), /* @__PURE__ */ React32.createElement(Footer, { onNavigateAdmin: () => navigateTo(isAuthenticated ? "admin_dashboard" : "admin_login") })), /* @__PURE__ */ React32.createElement(
     SupabaseSettingsModal,
     {
       isOpen: isSupabaseModalOpen,

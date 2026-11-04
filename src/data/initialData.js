@@ -3,6 +3,8 @@
  * Every detail matches the user specification precisely.
  */
 
+import { defaultResumePdfBase64 } from './resumeBase64.js';
+
 export const initialProfile = {
   name: "Pittala Manogna",
   title: "B.Tech Data Science Student | Aspiring Data Analyst",
@@ -22,7 +24,7 @@ export const initialProfile = {
     "Problem Solving"
   ],
   avatarUrl: "", // Defaults to clean minimalist SVG avatar if empty
-  resumeUrl: "", // Resume PDF path or Base64 data URL
+  resumeUrl: defaultResumePdfBase64, // Actual Pittala Manogna Resume PDF
   resumeFileName: "Pittala_Manogna_Resume.pdf",
   resumeUpdatedAt: "2026-11-04"
 };
@@ -200,3 +202,4 @@ export const initialMessages = [
     read: false
   }
 ];
+

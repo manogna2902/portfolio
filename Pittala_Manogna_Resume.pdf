@@ -1,0 +1,76 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 3484 >>
+stream
+0.2 0.2 0.2 RG 1 w 40 735 m 555 735 l S
+0.7 0.7 0.7 RG 0.5 w
+40 710 m 555 710 l S
+40 655 m 555 655 l S
+40 537 m 555 537 l S
+40 468 m 555 468 l S
+40 357 m 555 357 l S
+40 288 m 555 288 l S
+BT /F2 20 Tf 0 0 0 rg 40 790 Td (PITTALA MANOGNA) Tj ET
+BT /F1 12 Tf 0 0 0 rg 40 770 Td (B.Tech Data Science Student | Aspiring Data Analyst) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 755 Td (Warangal, Telangana, India | +91 8331003290 | manogna2902@gmail.com) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 742 Td (LinkedIn: linkedin.com/in/manogna-pittala-077aa9325 | GitHub: github.com/manogna2902) Tj ET
+BT /F2 12 Tf 0 0 0 rg 40 715 Td (CAREER OBJECTIVE) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 700 Td (Passionate B.Tech Data Science student at KITSW Warangal with strong foundations in Data Analytics,) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 688 Td (Python, Machine Learning, and Tableau. Seeking to transform raw data into actionable business insights.) Tj ET
+BT /F2 12 Tf 0 0 0 rg 40 660 Td (EDUCATION) Tj ET
+BT /F2 11 Tf 0 0 0 rg 40 645 Td (Kakatiya Institute of Technology and Science \(KITSW\), Warangal) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 632 Td (B.Tech in Data Science | 2024 - Present | CGPA: 8.8) Tj ET
+BT /F2 11 Tf 0 0 0 rg 40 614 Td (TSRJC CET Girls, Nirmal) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 601 Td (Intermediate - MPC | 2022 - 2024 | Percentage: 96.9%) Tj ET
+BT /F2 11 Tf 0 0 0 rg 40 583 Td (ZPHS Maskapur) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 570 Td (Secondary School Certificate \(SSC\) | 2022 | GPA: 9.2) Tj ET
+BT /F2 12 Tf 0 0 0 rg 40 542 Td (TECHNICAL SKILLS) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 527 Td (Languages & Core: Python \(Pandas, NumPy\), Java \(OOP, Data Structures\), SQL) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 514 Td (Business Intelligence & Viz: Tableau Desktop, Interactive Dashboards, Data Visualization) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 501 Td (Data Science & Concepts: Data Preprocessing, Data Cleaning, Exploratory Analysis, Problem Solving) Tj ET
+BT /F2 12 Tf 0 0 0 rg 40 473 Td (PROJECTS) Tj ET
+BT /F2 11 Tf 0 0 0 rg 40 458 Td (StudyMate - Intelligent Collaborative Study Platform) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 445 Td (Designed a collaborative platform for students to track study sessions and optimize peer learning.) Tj ET
+BT /F1 9 Tf 0 0 0 rg 40 433 Td (Technologies: Python, Data Analytics, React, Tailwind CSS, Database Design) Tj ET
+BT /F2 11 Tf 0 0 0 rg 40 415 Td (TRICITY - Urban Analytics & Civic Data Visualization) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 402 Td (Civic analytics platform visualizing municipal metrics, geospatial mapping, and citizen reporting.) Tj ET
+BT /F1 9 Tf 0 0 0 rg 40 390 Td (Technologies: Python, Civic Analytics, Data Visualization, REST APIs, GIS Mapping) Tj ET
+BT /F2 12 Tf 0 0 0 rg 40 362 Td (INTERNSHIP EXPERIENCE) Tj ET
+BT /F2 11 Tf 0 0 0 rg 40 347 Td (Java Programming Intern - InternPe \(6 Weeks, 2026\)) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 334 Td (- Implemented modular Java components adhering to object-oriented programming principles.) Tj ET
+BT /F1 10 Tf 0 0 0 rg 40 321 Td (- Developed algorithms for efficient data structures, debugging, and software testing practices.) Tj ET
+BT /F2 12 Tf 0 0 0 rg 40 293 Td (CERTIFICATIONS & SEMINARS) Tj ET
+BT /F2 10 Tf 0 0 0 rg 40 278 Td (Hedera Certified Foundation \(HCF\) - Hedera \(2024\)) Tj ET
+BT /F2 10 Tf 0 0 0 rg 40 263 Td (Credit Card Fraud Detection - Academic Research Seminar, KITSW \(2026\)) Tj ET
+BT /F1 9 Tf 0 0 0 rg 40 250 Td (Explored ML techniques \(SMOTE, XGBoost, PR-AUC\) for highly skewed financial transaction streams.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000003787 00000 n 
+0000003857 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+3932
+%%EOF

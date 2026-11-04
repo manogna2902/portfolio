@@ -7,3 +7,4 @@ if exist %ESBUILD% (
     echo Esbuild not found at default location. Running npm run build...
     npm run build
 )
+

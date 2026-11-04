@@ -254,3 +254,4 @@ ON CONFLICT DO NOTHING;
 INSERT INTO public.seminars (title, seminar_type, institution, description, extended_notes, key_takeaways) VALUES
 ('Credit Card Fraud Detection', 'Academic Seminar Topic', 'KITSW, Warangal', 'Academic seminar exploring machine learning-based approaches for identifying fraudulent credit card transactions.', 'Analyzed critical challenges in high-frequency financial systems including extreme class imbalance, concept drift, feature scaling, and optimizing Precision-Recall trade-offs over raw accuracy to minimize false negatives.', ARRAY['Examined supervised classification models (Logistic Regression, Random Forests, XGBoost) on anonymized PCA datasets', 'Evaluated resampling strategies such as SMOTE and Random Undersampling for highly skewed distributions', 'Highlighted cost-sensitive learning metrics: F1-Score, PR-AUC, and financial loss minimization'])
 ON CONFLICT DO NOTHING;
+

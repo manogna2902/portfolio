@@ -103,7 +103,17 @@ export function getLocalPortfolioData() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY_DATA);
     if (stored) {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      // Automatically attach default valid resume if previously empty in localStorage
+      if (!parsed.profile?.resumeUrl || parsed.profile.resumeUrl === '') {
+        parsed.profile = {
+          ...parsed.profile,
+          resumeUrl: initialData.initialProfile.resumeUrl || 'Pittala_Manogna_Resume.pdf',
+          resumeFileName: 'Pittala_Manogna_Resume.pdf'
+        };
+        saveLocalPortfolioData(parsed);
+      }
+      return parsed;
     }
   } catch (e) {
     console.error('Error reading local portfolio data:', e);
@@ -426,3 +436,4 @@ export async function logoutAdmin() {
   setStoredAuthUser(null);
   return { success: true };
 }
+

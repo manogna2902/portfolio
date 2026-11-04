@@ -1,53 +1,15 @@
 import React from 'react';
 import { usePortfolio } from '../context/PortfolioContext.jsx';
+import { downloadResumePdf } from '../utils/downloadHelper.js';
 
-export default function Hero() {
+export default function Hero({ onShowToast }) {
   const { profile } = usePortfolio();
 
-  const handleResumeDownload = () => {
-    if (profile.resumeUrl) {
-      window.open(profile.resumeUrl, '_blank');
-    } else {
-      const resumeContent = `PITTALA MANOGNA - RESUME
-${profile.title}
-Location: ${profile.location}
-Email: ${profile.email} | Phone: ${profile.phone}
-LinkedIn: ${profile.linkedin}
-GitHub: ${profile.github}
-
-ABOUT ME:
-${profile.bio}
-
-EDUCATION:
-- B.Tech in Data Science, KITSW, Warangal (2024-Present) | CGPA: 8.8
-- Intermediate MPC, TSRJC CET Girls, Nirmal (2022-2024) | Percentage: 96.9%
-- SSC, ZPHS Maskapur (2022) | GPA: 9.2
-
-SKILLS:
-- Python, Tableau, Data Visualization, Java, Problem Solving
-
-PROJECTS:
-- StudyMate: Intelligent collaborative study platform for peer learning insights.
-- TRICITY: Urban civic analytics platform for smart city data visualization.
-
-INTERNSHIP:
-- Java Programming Intern at InternPe (6 Weeks, 2026)
-
-CERTIFICATIONS:
-- Hedera Certified Foundation (HCF)
-
-SEMINAR:
-- Credit Card Fraud Detection (Academic ML Seminar)`;
-
-      const blob = new Blob([resumeContent], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = profile.resumeFileName || 'Pittala_Manogna_Resume.txt';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const handleResumeDownload = (e) => {
+    e.preventDefault();
+    const resumeSource = profile.resumeUrl || 'Pittala_Manogna_Resume.pdf';
+    const resumeName = profile.resumeFileName || 'Pittala_Manogna_Resume.pdf';
+    downloadResumePdf(resumeSource, resumeName, onShowToast);
   };
 
   const scrollToSection = (id) => {
@@ -106,15 +68,18 @@ SEMINAR:
                 </svg>
               </button>
 
-              <button
+              <a
+                href={profile.resumeUrl || 'Pittala_Manogna_Resume.pdf'}
+                download={profile.resumeFileName || 'Pittala_Manogna_Resume.pdf'}
                 onClick={handleResumeDownload}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-white border border-[#E5E5E5] rounded-lg hover:border-[#111111] hover:bg-[#F3F3F3] transition-all"
+                role="button"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-white border border-[#E5E5E5] rounded-lg hover:border-[#111111] hover:bg-[#F3F3F3] transition-all cursor-pointer shadow-sm"
               >
                 <svg className="w-4 h-4 text-[#111111]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <span>Download Resume</span>
-              </button>
+              </a>
 
               <button
                 onClick={() => scrollToSection('contact')}

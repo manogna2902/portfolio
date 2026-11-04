@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { usePortfolio } from '../context/PortfolioContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
+import { downloadResumePdf } from '../utils/downloadHelper.js';
 
-export default function Navbar({ onNavigateAdmin }) {
+export default function Navbar({ onNavigateAdmin, onShowToast }) {
   const { profile } = usePortfolio();
   const { isAuthenticated } = useAuth();
   const [scrolled, setScrolled] = useState(false);
@@ -42,51 +43,12 @@ export default function Navbar({ onNavigateAdmin }) {
     }
   };
 
-  const handleResumeDownload = () => {
-    if (profile.resumeUrl) {
-      window.open(profile.resumeUrl, '_blank');
-    } else {
-      // Generate clean minimal text resume file if no PDF uploaded yet
-      const resumeContent = `PITTALA MANOGNA
-${profile.title}
-Location: ${profile.location}
-Email: ${profile.email} | Phone: ${profile.phone}
-LinkedIn: ${profile.linkedin}
-GitHub: ${profile.github}
-
-ABOUT ME:
-${profile.bio}
-
-EDUCATION:
-- B.Tech in Data Science, KITSW, Warangal (2024-Present) | CGPA: 8.8
-- Intermediate MPC, TSRJC CET Girls, Nirmal (2022-2024) | Percentage: 96.9%
-- SSC, ZPHS Maskapur (2022) | GPA: 9.2
-
-SKILLS:
-- Python, Tableau, Data Visualization, Java, Problem Solving
-
-PROJECTS:
-- StudyMate: Intelligent collaborative study platform for peer learning insights.
-- TRICITY: Urban civic analytics platform for smart city data visualization.
-
-INTERNSHIP:
-- Java Programming Intern at InternPe (6 Weeks, 2026)
-
-CERTIFICATIONS:
-- Hedera Certified Foundation (HCF)
-
-SEMINAR:
-- Credit Card Fraud Detection (Academic ML Seminar)`;
-
-      const blob = new Blob([resumeContent], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = profile.resumeFileName || 'Pittala_Manogna_Resume.txt';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const handleResumeDownload = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    setMobileMenuOpen(false);
+    const resumeSource = profile.resumeUrl || 'Pittala_Manogna_Resume.pdf';
+    const resumeName = profile.resumeFileName || 'Pittala_Manogna_Resume.pdf';
+    downloadResumePdf(resumeSource, resumeName, onShowToast);
   };
 
   return (
@@ -127,15 +89,18 @@ SEMINAR:
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-3">
-            <button
+            <a
+              href={profile.resumeUrl || 'Pittala_Manogna_Resume.pdf'}
+              download={profile.resumeFileName || 'Pittala_Manogna_Resume.pdf'}
               onClick={handleResumeDownload}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-white border border-[#E5E5E5] rounded-md hover:border-[#111111] hover:bg-[#F3F3F3] transition-all"
+              role="button"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-white border border-[#E5E5E5] rounded-md hover:border-[#111111] hover:bg-[#F3F3F3] transition-all cursor-pointer shadow-sm"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
               Resume
-            </button>
+            </a>
 
             <button
               onClick={onNavigateAdmin}
@@ -185,15 +150,18 @@ SEMINAR:
               </a>
             ))}
             <div className="pt-3 flex flex-col gap-2">
-              <button
-                onClick={() => { setMobileMenuOpen(false); handleResumeDownload(); }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-[#F3F3F3] rounded-md border border-[#E5E5E5]"
+              <a
+                href={profile.resumeUrl || 'Pittala_Manogna_Resume.pdf'}
+                download={profile.resumeFileName || 'Pittala_Manogna_Resume.pdf'}
+                onClick={handleResumeDownload}
+                role="button"
+                className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#111111] bg-[#F3F3F3] rounded-md border border-[#E5E5E5] cursor-pointer"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
                 Download Resume
-              </button>
+              </a>
               <button
                 onClick={() => { setMobileMenuOpen(false); onNavigateAdmin(); }}
                 className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold text-white bg-[#111111] rounded-md"

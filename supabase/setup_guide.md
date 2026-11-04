@@ -65,3 +65,4 @@ Create a `.env` file in the root of the project with:
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-public-key-here
 ```
+

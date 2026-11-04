@@ -177,9 +177,12 @@ export default function App() {
       {/* 3. Public Portfolio View */}
       {currentRoute === 'public' && (
         <>
-          <Navbar onNavigateAdmin={() => navigateTo(isAuthenticated ? 'admin_dashboard' : 'admin_login')} />
+          <Navbar 
+            onNavigateAdmin={() => navigateTo(isAuthenticated ? 'admin_dashboard' : 'admin_login')} 
+            onShowToast={showToast}
+          />
           <main>
-            <Hero />
+            <Hero onShowToast={showToast} />
             <About />
             <Education />
             <Skills />
