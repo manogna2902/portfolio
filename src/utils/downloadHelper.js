@@ -104,3 +104,4 @@ export async function downloadResumePdf(
     return false;
   }
 }
+
